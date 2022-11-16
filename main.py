@@ -81,11 +81,11 @@ def enter_coord(num):
             enter_coord(1)
 
     if num == 2:
-        x = random.randint(0, n)
-        y = random.randint(0, n)
-        if all([0 <= x < n, 0 <= y < n]):
-            if field[x][y] != "O" and field[x][y] != "X":
-                field[x][y] = "O"
+        print("ходит компьютер.")
+        x = random.randint(0, n - 1)
+        y = random.randint(0, n - 1)
+        if field[x][y] != "O" and field[x][y] != "X":
+            field[x][y] = "O"
         else:
             enter_coord(2)
 
@@ -105,31 +105,38 @@ def size():
     return num
 
 
+def chek_end_game():
+    array = numpy.array(field)
+    if " " not in array:
+        print("Ничья. \nКонец игры.")
+        return True
+    return False
+
+
 greet()
 n = size()
 field = [[" "] * n for i in range(n)]
+human = 1
+ai = 2
 show()
-
-x = 0
-y = 0
 
 while True:
 
-    enter_coord(1)
+    enter_coord(human)
     show()
+
     if chek_win("X"):
         print("Победил человек. \nКонец игры.")
         break
 
-    arr = numpy.array(field)
-    if " " not in arr:
-        print("Ничья. \nКонец игры.")
+    if chek_end_game():
         break
 
-    print("ходит компьютер.")
-    enter_coord(2)
-
+    enter_coord(ai)
     show()
+
+    if chek_end_game():
+        break
 
     if chek_win("O"):
         print("Победил компьютер. \nКонец игры.")
