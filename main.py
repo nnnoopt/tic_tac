@@ -81,10 +81,11 @@ def enter_coord(num):
             enter_coord(1)
 
     if num == 2:
-        x = random.randint(0, 2)
-        y = random.randint(0, 2)
-        if all([0 <= x <= 3, 0 <= y <= 3, field[x][y] != "O", field[x][y] != "X"]):
-            field[x][y] = "O"
+        x = random.randint(0, n)
+        y = random.randint(0, n)
+        if all([0 <= x < n, 0 <= y < n]):
+            if field[x][y] != "O" and field[x][y] != "X":
+                field[x][y] = "O"
         else:
             enter_coord(2)
 
