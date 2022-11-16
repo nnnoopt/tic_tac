@@ -12,13 +12,16 @@ def greet():
 
 def show():
     print()
-    print(f"    | 1 | 2 | 3 | ")
-    print("  --------------- ")
+    print("    ", end="|")
+    for i in range(len(field)):
+        print(f" {i + 1} ", end="|")
+
+    print("")
+    print("-----" * n)
 
     for i, row in enumerate(field):
-        row_str = f"  {i + 1} | {' | '.join(row)} | "
-        print(row_str)
-        print("  --------------- ")
+        print(f"  {i + 1} | {' | '.join(row)} | ")
+        print("-----" * n)
     print()
 
 
@@ -50,8 +53,7 @@ def chek_win(z):
     return False
 
 
-def enter_coord2(num):
-
+def enter_coord(num):
     if num == 1:
         y = input("введи координату X: ")
         x = input("введи координату Y: ")
@@ -68,16 +70,15 @@ def enter_coord2(num):
                     field[x][y] = "X"
                 else:
                     print("поле уже занято.")
-                    enter_coord2(1)
+                    enter_coord(1)
 
             else:
                 print("неверные данные, введите еще раз.")
-                print(x, y)
-                enter_coord2(1)
+                enter_coord(1)
 
         else:
             print("введено не число.")
-            enter_coord2(1)
+            enter_coord(1)
 
     if num == 2:
         x = random.randint(0, 2)
@@ -85,39 +86,27 @@ def enter_coord2(num):
         if all([0 <= x <= 3, 0 <= y <= 3, field[x][y] != "O", field[x][y] != "X"]):
             field[x][y] = "O"
         else:
-            enter_coord2(2)
+            enter_coord(2)
 
 
-def enter_coord():
-    global x
-    global y
-
-    y = int(input("введи координату X: ")) - 1
-    x = int(input("введи координату Y: ")) - 1
-
-    if all([0 <= x <= n, 0 <= y <= n, field[x][y] != "O", field[x][y] != "X"]):
-        field[x][y] = "X"
+def size():
+    num = input("введи размер поля: ")
+    if num.isdigit():
+        num = int(num)
     else:
-        print("введи верные координаты.")
-        enter_coord()
+        print("введи число.")
+        return size()
+    if num < 3:
+        print("выбори размер от 3х.")
+        return size()
 
-
-def ai_enter_coord():
-    global x
-    global y
-    x = random.randint(0, 2)
-    y = random.randint(0, 2)
-    if all([0 <= x <= 3, 0 <= y <= 3, field[x][y] != "O", field[x][y] != "X"]):
-        field[x][y] = "O"
-    else:
-        ai_enter_coord()
+    print(type(num))
+    return num
 
 
 greet()
-
-n = int(input("введи размер поля: "))
+n = size()
 field = [[" "] * n for i in range(n)]
-print(field)
 show()
 
 x = 0
@@ -125,8 +114,7 @@ y = 0
 
 while True:
 
-    # enter_coord()
-    enter_coord2(1)
+    enter_coord(1)
     show()
     if chek_win("X"):
         print("Победил человек. \nКонец игры.")
@@ -138,8 +126,7 @@ while True:
         break
 
     print("ходит компьютер.")
-    enter_coord2(2)
-    # ai_enter_coord()
+    enter_coord(2)
 
     show()
 
